@@ -46,7 +46,9 @@ let rec put mv v =
                                                       (* This was added for cancellation purpose ::==> *)
                                                       let ret1 = resume (Ok v) in
                                                       if ret1 = Resume_success then ()
-                                                      else ()
+                                                      else 
+                                                      (* Retrying *)
+                                                        put mv v
                                                       (* raise (Abort "Excception in Put because it is already aborted")   *)
                                                     end                                               
                                                   else
@@ -91,7 +93,7 @@ let rec take mv =
                                                       v *)
                                                       let ret1 = resume (Ok ()) in 
                                                       if ret1 = Resume_success then v
-                                                      else v 
+                                                      else take mv
                                                       (* raise (Abort "Excception in Take because it is already aborted")    *)
                                                     end
                                                   else
